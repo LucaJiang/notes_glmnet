@@ -1,0 +1,12 @@
+# tex generated file
+*.aux
+*.log
+*.out
+*.toc
+*.bbl
+*.blg
+*.synctex.gz
+*.nav
+*.snm
+
+*.pdf

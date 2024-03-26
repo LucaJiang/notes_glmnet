@@ -1,0 +1,72 @@
+% https://www.overleaf.com/learn/latex/Beamer
+\documentclass{beamer}
+\usepackage[utf8]{inputenc}
+
+\usetheme{Madrid}
+\usecolortheme{default}
+
+%------------------------------------------------------------
+%This block of code defines the information to appear in the
+%Title page
+\title[GLM Net] %optional
+{TITLE HERE}
+
+\subtitle{SUBTITLE}
+
+\author[] % (optional)
+{Ruijuan Zhong \and Yue Zhou \and Wenxin JIANG} %order of speaker
+
+\institute[BIOS] % (optional)
+{
+  Department of Biostatistics\\
+  City University of Hong Kong
+}
+
+\date[April 2024] % (optional)
+{9 April 2024}
+
+\logo{\includegraphics[height=1cm]{img/CityU_Logo.pdf}}
+
+%End of title page configuration block
+%------------------------------------------------------------
+
+
+
+%------------------------------------------------------------
+%The next block of commands puts the table of contents at the 
+%beginning of each section and highlights the current section:
+
+\AtBeginSection[]
+{
+  \begin{frame}
+    \frametitle{Table of Contents}
+    \tableofcontents[currentsection]
+  \end{frame}
+}
+%------------------------------------------------------------
+
+
+\begin{document}
+
+%The next statement creates the title page.
+\frame{\titlepage}
+
+
+%---------------------------------------------------------
+%This block of code is for the table of contents after
+%the title page
+\begin{frame}
+\frametitle{Table of Contents}
+\tableofcontents
+\end{frame}
+%---------------------------------------------------------
+
+
+\input{slides/rj.tex}
+
+\input{slides/zy.tex}
+
+\input{slides/wx.tex}
+
+
+\end{document}
