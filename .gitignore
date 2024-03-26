@@ -1,3 +1,5 @@
+# basic file
+.DS_Store
 # tex generated file
 *.aux
 *.log
