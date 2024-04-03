@@ -10,3 +10,5 @@
 *.synctex.gz
 *.nav
 *.snm
+# drafts
+*_notes.md
