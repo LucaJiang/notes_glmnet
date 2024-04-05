@@ -1,0 +1,45 @@
+# LARS and Coordinate Descent
+```{r load}
+install.packages("lars")
+library(lars)
+data(diabetes)
+install.packages("glmnet")
+library(glmnet)
+```
+
+```{r fit_model}
+# Fit the LARS model
+lars_fit <- lars(diabetes$x, diabetes$y, type = "lasso")
+stage_fit <- lars(diabetes$x, diabetes$y, type = "forward.stagewise")
+step_fit <- lars(diabetes$x, diabetes$y, type = "stepwise")
+lar_fit <- lars(diabetes$x, diabetes$y, type = "lar")
+
+glmnet_lasso_fit <- glmnet(diabetes$x, diabetes$y, alpha = 1)
+```
+
+```{r plot_model}
+pdf("./img/lars_diabetes.pdf", width = 10, height = 8)
+par(mfrow = c(1, 2))
+plot(lars_fit, xvar = "norm", col = 1:ncol(diabetes$x), lwd = 2)
+plot(stage_fit, xvar = "norm", col = 1:ncol(diabetes$x), lwd = 2)
+dev.off()
+```
+
+# Compare Computation Time
+```{r compare_time}
+# install.packages("microbenchmark")
+library(microbenchmark)
+cmp <- microbenchmark(lars(diabetes$x, diabetes$y, type = "lar"),
+    lars(diabetes$x, diabetes$y, type = "lasso"),
+    lars(diabetes$x, diabetes$y, type = "stepwise"),
+    lars(diabetes$x, diabetes$y, type = "forward.stagewise"),
+    glmnet(diabetes$x, diabetes$y, alpha = 1),
+    times = 1000
+)
+cmp_log <- cmp
+cmp_log$time <- log(cmp$time)
+# plot the comparison
+pdf("./img/lars_time.pdf", width = 8, height = 8)
+boxplot(cmp_log, names = c("LAR", "Lasso", "Stepwise", "Stagewise", "glmnet.lasso"), ylab = "Log(Computation Time)", xlab = "Method")
+dev.off()
+```

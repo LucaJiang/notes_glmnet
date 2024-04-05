@@ -12,3 +12,5 @@
 *.snm
 # drafts
 *_notes.md
+*.pptx
+*.pdf
