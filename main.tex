@@ -1,7 +1,10 @@
 % https://www.overleaf.com/learn/latex/Beamer
 \documentclass{beamer}
-% \usepackage[utf8]{inputenc}
-% \usepackage{amsmath}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{hyperref}
+\usepackage{biblatex}
+% \addbibresource{slides/ref.bib}
 
 \usetheme{Madrid}
 \usecolortheme{seahorse}
@@ -26,7 +29,7 @@
 \date[April 2024] % (optional)
 {9 April 2024}
 
-% \logo{\includegraphics[height=1cm]{img/CityU_Logo.pdf}}
+\logo{\includegraphics[height=0.8cm]{img/CityU_Logo.pdf}}
 
 %End of title page configuration block
 %------------------------------------------------------------
@@ -51,8 +54,6 @@
 
 %The next statement creates the title page.
 \frame{\titlepage}
-
-
 %---------------------------------------------------------
 %This block of code is for the table of contents after
 %the title page
@@ -62,12 +63,52 @@
 \end{frame}
 %---------------------------------------------------------
 
-
 \input{slides/rj.tex}
 
 \input{slides/zy.tex}
 
 \input{slides/wx.tex}
 
+% references frame
+\begin{frame}[allowframebreaks]
+\frametitle{References}
+
+\begin{thebibliography}{99}
+\small
+\bibitem{zou2005}
+H. Zou and T. Hastie, \emph{Regularization and Variable Selection Via the Elastic Net}, Journal of the Royal Statistical Society Series B: Statistical Methodology, vol. 67, no. 2, pp. 301–320, Apr. 2005, doi: 10.1111/j.1467-9868.2005.00503.x.
+
+\bibitem{efron2004}
+B. Efron, T. Hastie, I. Johnstone, and R. Tibshirani, \emph{Least angle regression}, Ann. Statist., vol. 32, no. 2, Apr. 2004, doi: 10.1214/009053604000000067.
+
+\bibitem{friedman2010}
+J. Friedman, T. Hastie, and R. Tibshirani, \emph{Regularization Paths for Generalized Linear Models via Coordinate Descent}, J. Stat. Soft., vol. 33, no. 1, 2010, doi: 10.18637/jss.v033.i01.
+
+\bibitem{hastie2020}
+T. Hastie, R. Tibshirani, and R. Tibshirani, \emph{Best Subset, Forward Stepwise or Lasso? Analysis and Recommendations Based on Extensive Comparisons}, Statist. Sci., vol. 35, no. 4, Nov. 2020, doi: 10.1214/19-STS733.
+
+\bibitem{coordinate2016}
+J. Pena, R. Tibshirani, \emph{Coordinate Descent. Convex Optimization: Fall 2016} Retrieved April 6, 2024, from \url{https://www.stat.cmu.edu/~ryantibs/convexopt-F16/}
+
+\end{thebibliography}
+
+\end{frame}
+
 
 \end{document}
+
+% In this slide, some important text will be
+% \alert{highlighted} because it's important.
+% Please, don't abuse it.
+
+% \begin{block}{Remark}
+% Sample text
+% \end{block}
+
+% \begin{alertblock}{Important theorem}
+% Sample text in red box
+% \end{alertblock}
+
+% \begin{examples}
+% Sample text in green box. The title of the block is ``Examples".
+% \end{examples}

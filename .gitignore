@@ -10,6 +10,8 @@
 *.synctex.gz
 *.nav
 *.snm
+*.run.xml
+*.bcf
 # drafts
 *_notes.md
 *.pptx
