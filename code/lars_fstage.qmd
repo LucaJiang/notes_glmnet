@@ -1,37 +1,38 @@
-#
-#
+# LARS and Coordinate Descent
+```{r load}
 install.packages("lars")
 library(lars)
 data(diabetes)
 install.packages("glmnet")
 library(glmnet)
-#
-#
-#
+```
+
+```{r fit_model}
 # Fit the LARS model
 lars_fit <- lars(diabetes$x, diabetes$y, type = "lasso")
 stage_fit <- lars(diabetes$x, diabetes$y, type = "forward.stagewise")
 step_fit <- lars(diabetes$x, diabetes$y, type = "stepwise")
 lar_fit <- lars(diabetes$x, diabetes$y, type = "lar")
-
+# Fit the glmnet model with lasso
 glmnet_lasso_fit <- glmnet(diabetes$x, diabetes$y, alpha = 1)
-#
-#
-#
+```
+
+```{r plot_model}
 pdf("./img/lars_diabetes.pdf", width = 12, height = 8)
-par(mfrow = c(1, 3))
+par(mfrow = c(1, 2))
 plot(lar_fit, xvar = "norm", col = 1:ncol(diabetes$x), lwd = 2)
 plot(lars_fit, xvar = "norm", col = 1:ncol(diabetes$x), lwd = 2)
 plot(stage_fit, xvar = "norm", col = 1:ncol(diabetes$x), lwd = 2)
 dev.off()
-#
-#
-#
-plot(lars_fit, xvar = c("norm", "df", "arc.length", "step"), breaks = TRUE, plottype = "Cp")
-#
-#
-#
-#
+```
+
+```{r plot_cp}
+plot(lars_fit, xvar = "arc.length", breaks = TRUE, plottype = "Cp")
+plot(lars_fit, xvar = "step", breaks = TRUE, plottype = "coefficients")
+```
+
+# Compare Computation Time
+```{r compare_time}
 # install.packages("microbenchmark")
 library(microbenchmark)
 cmp <- microbenchmark(lars(diabetes$x, diabetes$y, type = "lar"),
@@ -56,7 +57,74 @@ ggplot(cmp, aes(x = expr, y = log(time, base = 10), fill = expr)) +
     scale_x_discrete(labels = c("LAR", "LAR.lasso", "Stepwise", "Stagewise"))
 # boxplot(cmp, names = c("LAR", "LAR.lasso", "Stepwise", "Stagewise"), ylab = "Log(Computation Time)", xlab = "Method")
 dev.off()
-#
-#
-#
-#
+```
+
+```{r compare_time}
+# install.packages("microbenchmark")
+library(microbenchmark)
+cmp <- microbenchmark(lars(diabetes$x, diabetes$y, type = "lar"),
+    lars(diabetes$x, diabetes$y, type = "lasso"),
+    lars(diabetes$x, diabetes$y, type = "stepwise"),
+    lars(diabetes$x, diabetes$y, type = "forward.stagewise"),
+    glmnet(diabetes$x, diabetes$y, alpha = 1),
+    times = 100
+)
+# plot the comparison
+library(ggplot2)
+pdf("./img/lars_glmnet_time.pdf", width = 6, height = 6)
+ggplot(cmp, aes(x = expr, y = log(time, base = 10), fill = expr)) +
+    geom_boxplot(alpha = 0.6) +
+    theme(legend.position = "none") +
+    scale_fill_brewer(palette = "Dark2") +
+    ylab("Log Computation Time (ms)") +
+    xlab("Method") +
+    ggtitle("Computation Time Comparison") +
+    scale_x_discrete(labels = c("LAR", "LAR.lasso", "Stepwise", "Stagewise", "glmnet"))
+# boxplot(cmp, names = c("LAR", "LAR.lasso", "Stepwise", "Stagewise"), ylab = "Log(Computation Time)", xlab = "Method")
+dev.off()
+```
+
+# Compare
+```{r compare_gendata}
+# Sparse
+n <- 10000
+p <- 200
+nzc <- trunc(p / 10)
+x <- matrix(rnorm(n * p), n, p)
+iz <- sample(1:(n * p), size = n * p * .85, replace = FALSE)
+x[iz] <- 0
+sx <- Matrix(x, sparse = TRUE)
+inherits(sx, "sparseMatrix") # confirm that it is sparse
+beta <- rnorm(nzc)
+fx <- x[, seq(nzc)] %*% beta
+eps <- rnorm(n)
+y <- fx + eps
+# px=exp(fx)
+# px=px/(1+px)
+# ly=rbinom(n=length(px),prob=px,size=1)
+```
+
+```{r compare_time}
+# install.packages("microbenchmark")
+library(microbenchmark)
+cmp <- microbenchmark(lars(x, y, type = "lar"),
+    lars(x, y, type = "lasso"),
+    lars(x, y, type = "stepwise"),
+    lars(x, y, type = "forward.stagewise"),
+    glmnet(x, y, alpha = 1),
+    times = 20
+)
+# plot the comparison
+library(ggplot2)
+pdf("./img/lars_glmnet_time_large.pdf", width = 6, height = 6)
+ggplot(cmp, aes(x = expr, y = log(time, base = 10), fill = expr)) +
+    geom_boxplot(alpha = 0.6) +
+    theme(legend.position = "none") +
+    scale_fill_brewer(palette = "Dark2") +
+    ylab("Log Computation Time (ms)") +
+    xlab("Method") +
+    ggtitle("Computation Time Comparison") +
+    scale_x_discrete(labels = c("LAR", "LAR.lasso", "Stepwise", "Stagewise", "glmnet"))
+# boxplot(cmp, names = c("LAR", "LAR.lasso", "Stepwise", "Stagewise"), ylab = "Log(Computation Time)", xlab = "Method")
+dev.off()
+```

@@ -126,7 +126,7 @@ In contrast to forward stepwise selection, forward stagewise selection builds th
     \column{0.5\textwidth}
     Let $\hat{\mathbf{\mu}}$ be the current Stagewise estimate and $\hat{\mathbf{c}}=\mathbf{c}(\hat{\mathbf{\mu}})=X^T(y-\hat{\mathbf{\mu}})$ be the vector of current correlations. Therefore, $\hat{c}_j$ is proportional to the correlation between the covariate $x_j$ and the current residual vector.
     \begin{enumerate}
-        \item Start with $\hat{\mathbf{\mu}}=0$.
+        \item Start with $\hat{\mathbf{\mu}}=0$ and a null model.
     \end{enumerate}
     
     \column{0.5\textwidth}
@@ -145,7 +145,7 @@ Let $\hat{\mathbf{\mu}}$ be the current Stagewise estimate and $\hat{\mathbf{c}}
 \begin{columns}[t]
     \column{0.5\textwidth}
     \begin{enumerate}
-        \item Start with $\hat{\mathbf{\mu}}=0$.
+        \item Start with $\hat{\mathbf{\mu}}=0$ and a null model.
         \item Find the predictor $j$ that has the highest correlation that $\hat{j}=\arg\max_{j}|\hat{c}_j|$.
         \item Update $\hat{\mathbf{\mu}}\leftarrow\hat{\mathbf{\mu}}+\varepsilon\cdot\text{sign}(\hat{c}_{\hat{j}})\cdot\mathbf{x}_{\hat{j}}$ and $\mathbf{\hat{c}}$.
         \item Repeat steps $2-3$ until the stopping criterion is met.
@@ -168,7 +168,7 @@ Least Angle Regression (LAR) is a stylized version of forward stagewise procedur
 \begin{columns}[t]
     \column{0.5\textwidth}
     \begin{enumerate}
-        \item Start with all coefficients equal to zero.
+        \item Start with $\hat{\mathbf{\mu}}=0$ and a null model.
     \end{enumerate}
     
     \column{0.5\textwidth}
@@ -185,7 +185,7 @@ Least Angle Regression (LAR) is a stylized version of forward stagewise procedur
 \begin{columns}[t]
     \column{0.5\textwidth}
     \begin{enumerate}
-        \item Start with all coefficients equal to zero.
+        \item Start with $\hat{\mathbf{\mu}}=0$ and a null model.
         \item Find the predictor most correlated with the response.
     \end{enumerate}
     
@@ -203,7 +203,7 @@ Least Angle Regression (LAR) is a stylized version of forward stagewise procedur
 \begin{columns}[t]
     \column{0.5\textwidth}
     \begin{enumerate}
-        \item Start with all coefficients equal to zero.
+        \item Start with $\hat{\mathbf{\mu}}=0$ and a null model.
         \item Find the predictor most correlated with the response.
         \item Take the largest step possible in the direction of this predictor until some other predictor has as much correlation with the current residual.
     \end{enumerate}
@@ -222,14 +222,14 @@ Least Angle Regression (LAR) is a stylized version of forward stagewise procedur
 \begin{columns}[t]
     \column{0.6\textwidth}
     \begin{enumerate}
-        \item Start with all coefficients equal to zero.
+        \item Start with $\hat{\mathbf{\mu}}=0$ and a null model.
         \item Find the predictor most correlated with the response.
         \item Take the largest step possible in the direction of this predictor until some other predictor has as much correlation with the current residual.
         \item The new direction is the equiangular vector of the two predictors. Move in until a third predictor earns its way into the ``most correlated'' set.
         \item Repeat steps $3-4$ until met the stopping criterion.
     \end{enumerate}
     
-    \column{0.4\textwidth}
+    \column{0.5\textwidth}
     \begin{figure}[!htbp]
         \begin{center}
             \includegraphics[width=0.9\textwidth]{img/LAR/4.jpeg}
@@ -239,7 +239,17 @@ Least Angle Regression (LAR) is a stylized version of forward stagewise procedur
 \end{frame}
 
 \begin{frame}
-\frametitle{Least Angle Regression: Notation}
+    \frametitle{Least Angle Regression: L1 Arc Length}
+\begin{figure}[!htbp]
+    \begin{center}
+        \includegraphics[width=0.8\textwidth]{img/L1ArcLength.png}
+    \end{center}
+    % \caption{}\label{fig:}
+\end{figure}
+\end{frame}
+
+\begin{frame}
+\frametitle{Least Angle Regression: The Equiangular Vector}
 Assume that $\mathbf{x}_1,\dots,\mathbf{x}_p$ are linearly independent and for $\mathcal{A}$ a subset of indices $\{1,\dots,p\}$, define the matrix $\mathbf{X}_\mathcal{A}={(\dots,s_j\mathbf{x}_j,\dots)}_{j\in\mathcal{A}}$ where signs $s_j$ equal $\pm 1$. Let
 \begin{equation}
     g_\mathcal{A}=\mathbf{X}_\mathcal{A}^T\mathbf{X}_\mathcal{A}
@@ -248,7 +258,7 @@ Assume that $\mathbf{x}_1,\dots,\mathbf{x}_p$ are linearly independent and for $
 \end{equation}
 where $\mathbf{1}_\mathcal{A}$ is a vector of ones of length $|\mathcal{A}|$. The equiangular vector $\mathbf{u}_\mathcal{A}$ is defined as
 \begin{equation}
-    \mathbf{u}_\mathcal{A}=\mathbf{X}_\mathcal{A} A_\mathcal{A}g^{-1}_\mathcal{A}\mathbf{1}_\mathcal{A},\label{eq:lars26}
+    \mathbf{u}_\mathcal{A}=\mathbf{X}_\mathcal{A}\omega_\mathcal{A}, \text{ where } \omega_\mathcal{A}=A_\mathcal{A} g^{-1}_\mathcal{A}\mathbf{1}_\mathcal{A},\label{eq:lars26}
 \end{equation}
 is the unit vector making equal angles, less than $90^\circ$, with the columns of $\mathbf{X}_\mathcal{A}$ satisfying $\mathbf{X}_\mathcal{A}^T\mathbf{u}_\mathcal{A}=A_\mathcal{A}\mathbf{1}_\mathcal{A}$ and $\|\mathbf{u}_\mathcal{A}\|=1$.
 \end{frame}
@@ -257,7 +267,7 @@ is the unit vector making equal angles, less than $90^\circ$, with the columns o
 \frametitle{Least Angle Regression: Algorithm}
 % Then the algorithm of LARS comes as follows:
 \begin{enumerate}
-    \item Initialize all the coefficients $\hat{\mu}_0$ as 0, and let the residual $\mathbf{u}=\mathbf{y}$.
+    \item Initialize all the coefficients $\hat{\mathbf{\mu}}_0$ as 0, and let the residual $\mathbf{u}=\mathbf{y}$.
     \item Suppose that $\hat{\mathbf{\mu}}_\mathcal{A}$ is the current estimate of coefficients and $\hat{\mathbf{c}}=\mathbf{c}(\hat{\mathbf{\mu}}_\mathcal{A})=X^T(y-\hat{\mathbf{\mu}}_\mathcal{A})$ are the current correlations. The active set $\mathcal{A}$ is the set of indices corresponding to covariates with the greatest absolute correlations, i.e., $\mathcal{A}=\{j:|\hat{c}_j|=\hat{\mathbf{C}}\}$ and $\hat{\mathbf{C}}=\max_{j}|\hat{c}_j|$.
     
     Let $s_j=\text{sign}(\hat{c}_j)$ for $j\in\mathcal{A}$, and compute $A_\mathcal{A}$, and $\mathbf{u}_\mathcal{A}$ as in (\ref{eq:lars25}) and (\ref{eq:lars26}). Also, compute the inner product $\mathbf{a}=:X^T\mathbf{u}_\mathcal{A}$. Updates $\hat{\mathbf{\mu}}_\mathcal{A}$ as
@@ -272,17 +282,9 @@ is the unit vector making equal angles, less than $90^\circ$, with the columns o
 
 %---------------------------------------------------------
 \begin{frame}
-    \frametitle{Comparison the Solution Paths of LARS}
-\begin{figure}[!htbp]
-    \begin{center}
-        \includegraphics[width=0.75\textwidth]{img/lars_diabetes.pdf}
-    \end{center}
-    \caption{Solution paths of LAR, LAR-lasso and Forward Stagewise Selection for the diabetes data set.}\label{fig:lars_diabetes}
-\end{figure}
-\end{frame}
+\frametitle{Extend LAR to Lasso Regression}
+If a non-zero coefficient hits zero, drop its variable from the active set and recompute the current joint least squares direction. This is the modification to LAR for Lasso.
 
-\begin{frame}
-\frametitle{Extend LARS to Lasso and Stagewise Regression}
 Define $\hat{\mathbf{d}}$ to be the $m$-vector equaling $s_j{ \{A_\mathcal{A} g^{-1}_\mathcal{A} \mathbf{1}_\mathcal{A}\}}_j$ for $j\in\mathcal{A}$ and zero elsewhere. Let $$\tilde{\gamma}=\min_{\gamma_j>0}\{\gamma_j\},$$ where $\gamma_j=-\hat{\beta}_j/\hat{d}_j$, we have the following modification to LAR for Lasso:
 
 \begin{block}{LASSO MODIFICATION}
@@ -291,7 +293,8 @@ If $\tilde{\gamma}<\hat{\gamma}$, stop the ongoing LARS at $\gamma=\tilde{\gamma
 \end{frame}
 
 \begin{frame}
-\frametitle{Extend LARS to Lasso and Stagewise Regression}
+\frametitle{Extend LAR to Stagewise Regression}
+If we modify the active set $\mathcal{A}$ (so that $\omega_\mathcal{A}$ would not have negative components), we can extend LAR to Stagewise Regression.
 
 Define
 $$P\equiv(N_1,\dots,N_p)/N \quad \mathcal{C}_{\mathcal{A}}=\left\{\mathbf{v}=\sum_{j\in\mathcal{A}}s_j \mathbf{x}_j P_j, P_j\geq 0\right\}$$ 
@@ -302,6 +305,15 @@ Replace the $\mathbf{u}_{\mathcal{A}}$ in LAR with $\mathbf{u}_{\hat{\mathcal{B}
 \end{block}
 \end{frame}
 
+\begin{frame}
+    \frametitle{Comparison the Solution Paths of LARS}
+\begin{figure}[!htbp]
+    \begin{center}
+        \includegraphics[width=0.75\textwidth]{img/lars_diabetes.pdf}
+    \end{center}
+    \caption{Solution paths of LAR, LAR-lasso and Forward Stagewise Selection for the diabetes data set.}\label{fig:lars_diabetes}
+\end{figure}
+\end{frame}
 
 \begin{frame}
     \frametitle{Comparison of Computational Time}
@@ -312,7 +324,6 @@ Replace the $\mathbf{u}_{\mathcal{A}}$ in LAR with $\mathbf{u}_{\hat{\mathcal{B}
     \caption{Comparison of computational time between LAR, LAR-Lasso, Forward Stagewise Selection, and Forward Stepwise Selection with the diabetes data set.}\label{fig:lars_time}
 \end{figure}
 \end{frame}
-
 
 %---------------------------------------------------------
 \section{Coordinate Descent}
@@ -349,10 +360,10 @@ Q2: Same question, but $f$ is convex, not differentiable?
     \begin{center}
         \includegraphics[width=0.6\textwidth]{img/cd_q2.png}
     \end{center}
-    \caption{Illustration of the question.}\label{fig:cd_q2}
+    \caption{$f$ is not differentiable along the diagonal, but is convex. The global minimizer is at the origin (centre).}\label{fig:cd_q2}
 \end{figure}
 
-No. We can see that the whatever the cross-point goes any direction along the axis, the criterion value will increase.
+No. We can see that the cross-point is minimized for each axis, but only the origin is the global minimizer.
 \end{frame}
 
 \begin{frame}
@@ -439,4 +450,22 @@ $$
     \caption{Coordinate descent and (accelerated) proximal gradient descent for lasso regression with $n=100,p=20$.}\label{fig:cd_lasso}
 \end{figure}
 % The coordinate gradient descent here is comparable to gradient descent for they both share $O(n p)$ flops in each iteration.
+\end{frame}
+
+\begin{frame}
+    \frametitle{LARS VS Coordinate Descent: Computational Time}
+\begin{figure}[!htbp]
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+%		 include first image
+        \includegraphics[width=\linewidth]{img/lars_glmnet_time.pdf}
+    \end{subfigure}
+    \begin{subfigure}[t]{0.49\textwidth}
+        \centering
+%		 include second image
+        \includegraphics[width=\linewidth]{img/lars_glmnet_time_large.pdf}
+    \end{subfigure}
+    \caption{Comparison of computational time between LAR, LAR-Lasso, Forward Stagewise Selection, Forward Stepwise Selection and glmnet.lasso with the diabetes data set ($n=442,p=10$) and a simulated data set ($n=1e4,p=200$).}
+\end{figure}
+
 \end{frame}
