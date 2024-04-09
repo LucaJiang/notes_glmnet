@@ -16,9 +16,9 @@ A model fitting procedure produces the vector of coefficients $\hat{\boldsymbol{
         \end{itemize}
         \vspace{10pt}
         It is well known that OLS often does poorly in both prediction and interpretation.
-    \end{frame}
+\end{frame}
 
-    \begin{frame}{Penalization techniques to improve OLS}
+\begin{frame}{Penalization techniques to improve OLS}
     
     \begin{figure}
         \centering
@@ -68,7 +68,7 @@ A model fitting procedure produces the vector of coefficients $\hat{\boldsymbol{
 
 The naive elastic net estimator $\hat{\beta}$ is the minimizer of equation (3):
 \begin{equation}
-\hat{\bm{\beta}} = \arg\min_{\bm{\beta}} L(\lambda_1, \lambda_2, \bm{\beta}).
+\hat{\mathbf{\beta}} = \arg\min_{\mathbf{\beta}} L(\lambda_1, \lambda_2, \mathbf{\beta}).
 \end{equation}
 This procedure can be viewed as a penalized least squares method. Let $\alpha = \lambda_2 / (\lambda_1 + \lambda_2)$, then solving $\hat{\beta}$ in equation (3) is equivalent to the optimization problem
 
@@ -76,8 +76,8 @@ This procedure can be viewed as a penalized least squares method. Let $\alpha = 
 
 \begin{equation}
 \begin{aligned}
-\hat{\bm{\beta}} &= \underset{\bm{\beta}}{\arg\min} \ \|y - X\bm{\beta}\|^2, \\
-&\text{subject to } (1 - \alpha) \|\bm{\beta}\|_1 + \alpha \|\bm{\beta}\|^2 \leq t \text{ for some } t.
+\hat{\mathbf{\beta}} &= \underset{\mathbf{\beta}}{\arg\min} \ \|y - X\mathbf{\beta}\|^2, \\
+&\text{subject to } (1 - \alpha) \|\mathbf{\beta}\|_1 + \alpha \|\mathbf{\beta}\|^2 \leq t \text{ for some } t.
 \end{aligned}
 \end{equation}
 
@@ -89,12 +89,11 @@ This procedure can be viewed as a penalized least squares method. Let $\alpha = 
             \centering
             \includegraphics[width=0.6\textwidth]{img/image1.png}
             \caption{Two-dimensional contour plots}
-            \label{fig:enter-label}
         \end{figure}
     \end{frame}
 
     \begin{frame}{Solution}
-        \begin{lemma}[1]
+        \begin{block}{LEMMA 1}
             Given data set $\left(\textbf{y}, \textbf{X}\right)$ and $(\lambda_1, \lambda_2)$, define an artificial data set $\left(\textbf{y}^*, \textbf{X}^*\right)$ by
 $$
 \mathbf{X}^*_{(n+p) \times p} = (1 + \lambda_2)^{-1/2}
@@ -113,14 +112,10 @@ L(\gamma, \beta) = L(\gamma, \beta^*) = \lVert y^* - X^* \beta^* \rVert_2^2 + \g
 $$
 Let
 $$
-\hat{\beta}^* = \underset{\beta^*}{\arg\min} L\left(\gamma, \beta^*\right);
+\hat{\beta}^* = \underset{\beta^*}{\arg\min} L\left(\gamma, \beta^*\right); \quad \text{then} \quad \hat{\beta} = \frac{1}{\sqrt{(1 + \lambda_2)}} \hat{\beta}^*.
 $$
-then
-$$
-\hat{\beta} = \frac{1}{\sqrt{(1 + \lambda_2)}} \hat{\beta}^*.
-$$
-        \end{lemma}
-    \end{frame}
+\end{block}
+\end{frame}
 
 \begin{frame}{Solution - Orthogonal case}
     In the case of an orthogonal design, it is straightforward to show that with parameters $(\lambda_1, \lambda_2)$ the naive elastic net solution is
@@ -193,22 +188,27 @@ $$
         \centering
         \includegraphics[width=0.6\textwidth]{img/image2.png}
         \caption{Exact solutions for the lasso, ridge regression and the naive elastic net in an orthogonal design}
-        \label{fig:enter-label}
     \end{figure}
 \end{frame}
 
 \begin{frame}{Grouping effect}
     We consider the generic penalization method
-    \begin{equation}
-        \hat{\beta} = \underset{\beta}{\arg\min} \left\lVert y - X\beta \right\rVert^2 + \lambda J(\beta)
-    \end{equation}
-    where $J(\cdot)$ is positive valued for $\beta \neq 0$
-    \begin{lemma}[2]
-        Assume that $\textbf{x}_i = \textbf{x}_j, i,j \in \{1, \ldots, p\}.$
-        \begin{enumerate}[label=(\alph*)]
-  \item If \( J(\cdot) \) is strictly convex, then \( \hat{\beta}_i = \hat{\beta}_j, \forall \lambda > 0. \)
-  \item If \( J(\beta) = \lVert \beta \rVert_1 \), then \( \hat{\beta}_i \hat{\beta}_j \geq 0 \) and \( \hat{\beta}^* \) is another minimizer of equation (7), where
-\end{enumerate}
+\begin{equation}
+    \hat{\beta} = \underset{\beta}{\arg\min} \left\lVert y - X\beta \right\rVert^2 + \lambda J(\beta)
+\end{equation}
+    where $J(\cdot)$ is positive valued for $\beta \neq 0$.
+
+\begin{block}{LEMMA 2}
+        Assume that $\textbf{x}_i = \textbf{x}_j, i,j \in \{1, \ldots, p\}$.
+
+1. If \( J(\cdot) \) is strictly convex, then \( \hat{\beta}_i = \hat{\beta}_j, \forall \lambda > 0. \)
+
+2.  If \( J(\beta) = \lVert \beta \rVert_1 \), then \( \hat{\beta}_i \hat{\beta}_j \geq 0 \) and \( \hat{\beta}^* \) is another minimizer of equation (7), where
+
+% \begin{enumerate}%[label=(\alph*)]
+%   \item If \( J(\cdot) \) is strictly convex, then \( \hat{\beta}_i = \hat{\beta}_j, \forall \lambda > 0. \)
+%   \item If \( J(\beta) = \lVert \beta \rVert_1 \), then \( \hat{\beta}_i \hat{\beta}_j \geq 0 \) and \( \hat{\beta}^* \) is another minimizer of equation (7), where
+% \end{enumerate}
 
 \[
 \hat{\beta}_k^* = 
@@ -218,8 +218,10 @@ $$
 (\hat{\beta}_i + \hat{\beta}_j) \cdot (1 - s) & \text{if } k = j,
 \end{cases}
 \]
+
 for any \( s \in [0, 1] \).
-    \end{lemma}
+\end{block}
+
 \end{frame}
 
 

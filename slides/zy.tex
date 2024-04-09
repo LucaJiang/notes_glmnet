@@ -25,7 +25,6 @@
             \centering
             \includegraphics[width=0.6\textwidth]{img/Table 1.png}
             % \caption{Caption}
-            \label{fig:enter-label}
         \end{figure}
         \begin{itemize}
             \item Elastic net is the winner in terms of both prediction accuracy and sparsity.
@@ -54,7 +53,7 @@ $$
 \beta=(3,1.5,0,0,2,0,0,0), \sigma=3
 $$
 $$
- \text{and cov}( x_i, x_j) = ( 0.5) ^{|i- j|} \text{ for all } i,j=1,...,8.
+ \text{and cov}( x_i, x_j) = ( 0.5)^{|i- j|} \text{ for all } i,j=1,\dots,8.
 $$
         \item Simulation example 2: Same as example 1, except $\beta_j=0.85$ for all $j.$
     \end{itemize}
@@ -64,8 +63,8 @@ $$
         \begin{itemize}
             \item Simulation example 3: 50 data sets were simulated consisting of 100/100/400 observations and 40 predictors:
             
- $$\beta= ( \underbrace{0, ...,0}_{10} ,\underbrace{2, ..., 2}_{10}, \underbrace{0, ...,0}_{10} ,\underbrace{2, ..., 2}_{10}) $$ 
- $$ \text{and } \sigma= 15,  \text{cor}( x_i, x_j) = 0.5 \text{ for all }i,j=1,...,40.$$
+ $$\beta= ( \underbrace{0, \dots,0}_{10} ,\underbrace{2, \dots, 2}_{10}, \underbrace{0, \dots,0}_{10} ,\underbrace{2, \dots, 2}_{10}) $$ 
+ $$ \text{and } \sigma= 15,  \text{cor}( x_i, x_j) = 0.5 \text{ for all }i,j=1,\dots,40.$$
         \end{itemize}
     \end{frame}
 
@@ -74,15 +73,15 @@ $$
         \begin{itemize}
             \item Simulation example 4: 50 data sets were simulated consisting of 50/50/400 observations and 40 predictors:
 
-$$\beta= ( \underbrace{3, ..., 3}_{15}, \underbrace{0, ..., 0}_{25}) , \text{and }\sigma=15.$$
+$$\beta= ( \underbrace{3, \dots, 3}_{15}, \underbrace{0, \dots, 0}_{25}) , \text{and }\sigma=15.$$
 
-$$\mathbf{x}_{i}=Z_1+\epsilon_i^X,\quad Z_1\sim N(0,1),\quad i=1,...,5.$$
+$$\mathbf{x}_{i}=Z_1+\epsilon_i^X,\quad Z_1\sim N(0,1),\quad i=1,\dots,5.$$
 
-$$\mathbf{x}_{i}=Z_2+\epsilon_i^X,\quad Z_2\sim N(0,1),\quad i=6,...,10.$$
+$$\mathbf{x}_{i}=Z_2+\epsilon_i^X,\quad Z_2\sim N(0,1),\quad i=6,\dots,10.$$
 
-$$\mathbf{x}_{i}=Z_2+\epsilon_i^X,\quad Z_2\sim N(0,1),\quad i=11,...,15.$$
- $$\mathbf{x}_{i}\overset{\mathrm{i.i.d.}}{\operatorname*{\sim}}N(0,1),\quad i=16,...,40$$
- $$\epsilon_i^x\stackrel{\mathrm{i.i.d.}}{\sim}N(0,0.01),\quad i=1,...,15$$
+$$\mathbf{x}_{i}=Z_2+\epsilon_i^X,\quad Z_2\sim N(0,1),\quad i=11,\dots,15.$$
+ $$\mathbf{x}_{i}\overset{\mathrm{i.i.d.}}{\operatorname*{\sim}}N(0,1),\quad i=16,\dots,40$$
+ $$\epsilon_i^x\stackrel{\mathrm{i.i.d.}}{\sim}N(0,0.01),\quad i=1,\dots,15$$
             
         \end{itemize}
     \end{frame}
@@ -92,7 +91,6 @@ $$\mathbf{x}_{i}=Z_2+\epsilon_i^X,\quad Z_2\sim N(0,1),\quad i=11,...,15.$$
             \centering
             \includegraphics[width=0.6\textwidth]{img/Table 2.png}
             % \caption{Caption}
-            \label{fig:enter-label}
         \end{figure}
         \begin{itemize}
             \item Elastic Net is more accurate than the LASSO in all four examples, even when the LASSO is significantly more accurate than Ridge regression.
@@ -105,7 +103,6 @@ $$\mathbf{x}_{i}=Z_2+\epsilon_i^X,\quad Z_2\sim N(0,1),\quad i=11,...,15.$$
             \centering
             \includegraphics[width=0.45\textwidth]{img/Fig 4.png}
             % \caption{Caption}
-            \label{fig:enter-label}
         \end{figure}
         \begin{itemize}
             \item Using the box-plot, the overall prediction performance of the LASSO, ridge, elastic net, and naive elastic net is compared for 4 example.
@@ -117,7 +114,6 @@ $$\mathbf{x}_{i}=Z_2+\epsilon_i^X,\quad Z_2\sim N(0,1),\quad i=11,...,15.$$
             \centering
             \includegraphics[width=0.6\textwidth]{img/Table 3.png}
             % \caption{Caption}
-            \label{fig:enter-label}
         \end{figure}
         \begin{itemize}
             \item Elastic Net selects more predictors than the LASSO due to the grouping effect. 
