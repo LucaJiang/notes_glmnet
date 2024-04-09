@@ -285,7 +285,9 @@ is the unit vector making equal angles, less than $90^\circ$, with the columns o
 \frametitle{Extend LAR to Lasso Regression}
 If a non-zero coefficient hits zero, drop its variable from the active set and recompute the current joint least squares direction. This is the modification to LAR for Lasso.
 
-Define $\hat{\mathbf{d}}$ to be the $m$-vector equaling $s_j{ \{A_\mathcal{A} g^{-1}_\mathcal{A} \mathbf{1}_\mathcal{A}\}}_j$ for $j\in\mathcal{A}$ and zero elsewhere. Let $$\tilde{\gamma}=\min_{\gamma_j>0}\{\gamma_j\},$$ where $\gamma_j=-\hat{\beta}_j/\hat{d}_j$, we have the following modification to LAR for Lasso:
+Define $\hat{\mathbf{d}}$ to be the $m$-vector equaling $s_j{ \{A_\mathcal{A} g^{-1}_\mathcal{A} \mathbf{1}_\mathcal{A}\}}_j$ for $j\in\mathcal{A}$ and zero elsewhere. 
+
+Let $$\tilde{\gamma}=\min_{\gamma_j>0}\{\gamma_j\},$$ where $\gamma_j=-\hat{\beta}_j/\hat{d}_j$, we have the following modification to LAR for Lasso:
 
 \begin{block}{LASSO MODIFICATION}
 If $\tilde{\gamma}<\hat{\gamma}$, stop the ongoing LARS at $\gamma=\tilde{\gamma}$ and remove $\tilde{j}$ from the active set. Then continue the LARS path from the current point.
@@ -297,7 +299,7 @@ If $\tilde{\gamma}<\hat{\gamma}$, stop the ongoing LARS at $\gamma=\tilde{\gamma
 If we modify the active set $\mathcal{A}$ (so that $\omega_\mathcal{A}$ would not have negative components), we can extend LAR to Stagewise Regression.
 
 Define
-$$P\equiv(N_1,\dots,N_p)/N \quad \mathcal{C}_{\mathcal{A}}=\left\{\mathbf{v}=\sum_{j\in\mathcal{A}}s_j \mathbf{x}_j P_j, P_j\geq 0\right\}$$ 
+$$P\equiv(N_1,\dots,N_p)/N, \quad \mathcal{C}_{\mathcal{A}}=\left\{\mathbf{v}=\sum_{j\in\mathcal{A}}s_j \mathbf{x}_j P_j, P_j\geq 0\right\}$$ 
 where $N_j\equiv \#\{\text{steps with selected index j}\}$. Then we have the following modification to LAR for Stagewise Regression:
 
 \begin{block}{STAGEWISE MODIFICATION}
@@ -330,26 +332,26 @@ Replace the $\mathbf{u}_{\mathcal{A}}$ in LAR with $\mathbf{u}_{\hat{\mathcal{B}
 \begin{frame}
     \frametitle{Coordinate Descent: Motivation Question 1}
 To motivate the objective function we would like to deal with using coordinate descent, let's consider these questions first:
-\newline\newline
-Q1: Does $f\left(x+\delta e_i\right) \geq f(x)$ for all $\delta, i \Longrightarrow f(x)=\min _z f(z)$ (Here $e_i=(0, \ldots, 1, \ldots 0)$, the $i$-th standard basis vector) always hold?
-\newline\newline
+
+Q1: Does $f\left(x+\delta e_i\right) \geq f(x)$ for all $\delta, i \Rightarrow f(x)=\min _z f(z)$ (Here $e_i=(0, \ldots, 1, \ldots 0)$, the $i$-th standard basis vector) always hold?
+
 In other words, given convex, differentiable $f: R^n \rightarrow R$, if we are at a point $x$ such that $f(x)$ is minimized along each coordinate axis, then have we found a global minimizer?
 \end{frame}
 
 \begin{frame}
     \frametitle{Coordinate Descent: Motivation Question 1}
-Q1: Does $f\left(x+\delta e_i\right) \geq f(x)$ for all $\delta, i \Longrightarrow f(x)=\min _z f(z)$ (Here $e_i=(0, \ldots, 1, \ldots 0)$, the $i$-th standard basis vector) always hold?
-\newline\newline
+Q1: Does $f\left(x+\delta e_i\right) \geq f(x)$ for all $\delta, i \Rightarrow f(x)=\min _z f(z)$ (Here $e_i=(0, \ldots, 1, \ldots 0)$, the $i$-th standard basis vector) always hold?
+
 Yes. $\textbf{Proof}$:
 $$
-f\left(x+\delta e_i\right) \geq f(x) \Longrightarrow \frac{\partial f}{\partial x_i}(x)=0,
+f\left(x+\delta e_i\right) \geq f(x) \Rightarrow \frac{\partial f}{\partial x_i}(x)=0,
 $$
 which means
 $$
 \nabla f(x)=\left(\frac{\partial f}{\partial x_1}(x), \ldots, \frac{\partial f}{\partial x_n}(x)\right)=0
 $$
 
-Then we get $f(x)=\min _z f(z)$.
+Then we get $f(x)=\min_z f(z)$.
 \end{frame}
 
 \begin{frame}
@@ -374,7 +376,7 @@ Q3: Same question again, but now $f(x)=g(x)+\sum_{i=1}^n h_i\left(x_i\right)$, w
 \begin{frame}
 \frametitle{Coordinate Descent: Motivation Question 3}
 Q3: Same question again, but now $f(x)=g(x)+\sum_{i=1}^n h_i\left(x_i\right)$, where $g(x)$ is convex, differentiable and each $h_i$ is just convex?
-\newline\newline
+
 Yes. $\textbf{Proof}$: Since $g(x)$ is convex, differentiable, for any $y$, we have
 \begin{align*}
     f(y)-f(x)&=g(y)+\sum_{i=1}^n h_i\left(y_i\right)-\left[g(x)+\sum_{i=1}^n h_i\left(x_i\right)\right] \\
@@ -383,7 +385,9 @@ Yes. $\textbf{Proof}$: Since $g(x)$ is convex, differentiable, for any $y$, we h
 \end{align*}
 
 We now want to proof
-$$\nabla_i g(x)\left(y_i-x_i\right)+h_i\left(y_i\right)-h_i\left(x_i\right) \geq 0.$$
+\begin{equation}
+    \nabla_i g(x)\left(y_i-x_i\right)+h_i\left(y_i\right)-h_i\left(x_i\right) \geq 0.
+\end{equation}
 \end{frame}
 
 \begin{frame}
@@ -428,13 +432,16 @@ Here is several things worth to notice:
 \frametitle{Coordinate Descent: Lasso Regression}
 Given $y \in R^n$, and $X \in R^{n \times p}$ with columns $X_1, \ldots, X_n$, consider lasso regression:
 $$
-\min _\beta \frac{1}{2}\|y-X \beta\|_2^2+\lambda\|\beta\|_1
+\min_\beta \frac{1}{2}\|y-X \beta\|_2^2+\lambda\|\beta\|_1
 $$
 
-We can perform coordinate descent by repeatedly minimize over $\beta_i$ for $i=1,2, \ldots, p, 1,2, \ldots$ Here $\beta_i$ can be gotten by solving:
-$$
-0=X_i^T\left(X_i \beta_i+X_{-i} \beta_{-i}-y\right)+\lambda s_i,
-$$
+Note that the nonsmooth part is separable: $\|\beta\|_1=\sum_{i=1}^p\left|\beta_i\right|$.
+
+We can perform coordinate descent by repeatedly minimize over $\beta_i$ for solving:
+\begin{equation}
+    0=X_i^T\left(X_i \beta_i+X_{-i} \beta_{-i}-y\right)+\lambda s_i,
+\end{equation}
+
 where $s_i \in \partial\left|\beta_i\right|$. Then by using soft-thresholding we get
 $$
 \beta_i=S_{\lambda /|| X_i \|_2^2} \frac{X_i^T\left(y-X_{-i} \beta_{-i}\right)}{X_i^T X_i}
@@ -447,7 +454,7 @@ $$
     \begin{center}
         \includegraphics[width=0.5\textwidth]{img/cd_lasso.png}
     \end{center}
-    \caption{Coordinate descent and (accelerated) proximal gradient descent for lasso regression with $n=100,p=20$.}\label{fig:cd_lasso}
+    \caption{Coordinate descent and (accelerated) proximal gradient descent for lasso regression with $n=100,p=20$. Note that both GD and CD cost $O(np)$ operators in one cycle.}\label{fig:cd_lasso}
 \end{figure}
 % The coordinate gradient descent here is comparable to gradient descent for they both share $O(n p)$ flops in each iteration.
 \end{frame}
